@@ -1,3 +1,5 @@
 venv/
 logs/
 artifacts/
+mlflow.db
+mlruns/
