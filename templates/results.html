@@ -1,2 +1,5 @@
-<h1>{{prediction}} </h1>
-
+{% if prediction == '1' or prediction == 1 %}
+    <h1 style="color:red;"> Customer WILL DEFAULT</h1>
+{% else %}
+    <h1 style="color:green;"> Customer will NOT default</h1>
+{% endif %}
