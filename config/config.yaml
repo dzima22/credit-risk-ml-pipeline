@@ -12,14 +12,13 @@ data_validation:
   unzip_data_dir: artifacts/data_ingestion/credit_risk_dataset.csv
   STATUS_FILE: artifacts/data_validation/status.txt
 
-
-data_transformation:
-  root_dir: artifacts/data_transformation
-  data_path: artifacts/data_ingestion/credit_risk_dataset.csv
-
 data_cleaning:
   root_dir: artifacts/data_cleaning
   data_path: artifacts/data_ingestion/credit_risk_dataset.csv
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_cleaning/credit_risk_dataset.csv
 
 model_trainer:
   root_dir: artifacts/model_trainer

@@ -15,6 +15,13 @@ class DataValidationConfig:
     STATUS_FILE:str
     unzip_data_dir:Path
     all_schema:dict
+    
+@dataclass
+class DataCleaningConfig:
+    root_dir: Path
+    data_path: Path
+    target_column: str
+    object_columns: list
 
 @dataclass
 class DataTransformationConfig:
@@ -27,8 +34,19 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    alpha: float
-    l1_ratio: float
+    n_estimators: float
+    learning_rate: float
+    max_depth: float
+    min_child_weight: float
+    subsample: float
+    colsample_bytree: float
+    gamma: float
+    reg_alpha: float
+    reg_lambda: float
+    scale_pos_weight: float
+    objective: str
+    eval_metric: str
+    random_state: int 
     target_column: str
 
 @dataclass

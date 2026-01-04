@@ -1,11 +1,10 @@
 import pandas as pd
 import os
 from src.datascience import logger
-from sklearn.linear_model import ElasticNet
+from xgboost import XGBClassifier
 import joblib
 
 from src.datascience.entity.config_entity import ModelTrainerConfig
-
 
 class ModelTrainer:
     def __init__(self, config: ModelTrainerConfig):
@@ -22,10 +21,11 @@ class ModelTrainer:
         test_y = test_data[[self.config.target_column]]
 
 
-        lr = ElasticNet(alpha=self.config.alpha, l1_ratio=self.config.l1_ratio, random_state=42)
+        lr = XGBClassifier( n_estimators=self.config.n_estimators, learning_rate=self.config.learning_rate,max_depth=self.config.max_depth,min_child_weight=self.config.min_child_weight,
+                            subsample=self.config.subsample,colsample_bytree=self.config.colsample_bytree,gamma=self.config.gamma,reg_alpha=self.config.reg_alpha,reg_lambda=self.config.reg_lambda,
+                            scale_pos_weight=self.config.scale_pos_weight,objective=self.config.objective,eval_metric=self.config.eval_metric,random_state=self.config.random_state)
         lr.fit(train_x, train_y)
 
         joblib.dump(lr, os.path.join(self.config.root_dir, self.config.model_name))
-
 
     

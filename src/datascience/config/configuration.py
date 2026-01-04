@@ -1,7 +1,7 @@
 from src.datascience.constants import *
 from src.datascience.utils.common import read_yaml, create_directories
 
-from src.datascience.entity.config_entity import (DataIngestionConfig,DataValidationConfig,
+from src.datascience.entity.config_entity import (DataIngestionConfig,DataValidationConfig,DataCleaningConfig,
                                                   DataTransformationConfig,ModelTrainerConfig,
                                                   ModelEvaluationConfig)
 
@@ -45,6 +45,21 @@ class ConfigurationManager:
 
         return data_validation_config
     
+    def get_data_cleaning_config(self) -> DataCleaningConfig:
+        config = self.config.data_cleaning
+        target_column = self.schema.TARGET_COLUMN
+        object_columns = self.schema.OBJECT_COLUMNS
+
+        create_directories([config.root_dir])
+
+        data_cleaning_config = DataCleaningConfig(
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            target_column=target_column.name,
+            object_columns=object_columns
+        )
+
+        return data_cleaning_config
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config=self.config.data_transformation
         create_directories([config.root_dir])
@@ -56,7 +71,7 @@ class ConfigurationManager:
     
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         config = self.config.model_trainer
-        params = self.params.ElasticNet
+        params = self.params.XGBClassifier
         schema =  self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -66,17 +81,26 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            alpha = params.alpha,
-            l1_ratio = params.l1_ratio,
-            target_column = schema.name
-            
-        )
+            n_estimators = params.n_estimators,
+            learning_rate = params.learning_rate,
+            max_depth=params.max_depth,
+            min_child_weight=params.min_child_weight,
+            subsample=params.subsample,
+            colsample_bytree=params.colsample_bytree,
+            gamma=params.gamma,
+            reg_alpha=params.reg_alpha,
+            reg_lambda=params.reg_lambda,
+            scale_pos_weight=params.scale_pos_weight,
+            objective=params.objective,
+            eval_metric=params.eval_metric,
+            random_state=params.random_state,
+            target_column = schema.name)
 
         return model_trainer_config
-    
+        
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config=self.config.model_evaluation
-        params=self.params.ElasticNet
+        params=self.params.XGBClassifier
         schema=self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])
@@ -88,7 +112,7 @@ class ConfigurationManager:
             all_params=params,
             metric_file_name = config.metric_file_name,
             target_column = schema.name,
-            mlflow_uri="https://dagshub.com/krishnaik06/datascienceproject.mlflow"
+            mlflow_uri="https://dagshub.com/dzima22/data_science_project.mlflow"
 
 
         )
