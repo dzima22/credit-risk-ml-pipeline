@@ -119,11 +119,10 @@ A simple **Flask web application** allows:
   - *“Customer is likely to default”*
   - *“Customer is not likely to default”*
 
-Run the main and app:
+Run the main,
+Then app in localhost:
 ````md
-python app.py
+python main.py
 python app.py
 
-```md
-Then open
 http://localhost:8080
